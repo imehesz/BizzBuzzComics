@@ -1,0 +1,86 @@
+/* Header.css */
+@import '../../_variables.scss';
+
+.header {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em 1em;
+    background-color: #333;
+    color: white;
+}
+
+.logo {
+    height: auto;
+    width: 120px; /* Adjust as needed */
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+}
+
+.nav a {
+    color: white;
+    text-decoration: none;
+    padding: 0 1em;
+    font-size: 1rem;
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+}
+
+/* Responsive styles */
+@media (max-width: $breakpoint-md) {
+    .hamburger {
+        display: block;
+    }
+
+    .nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background-color: #333;
+        display: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        z-index: 10; /* Ensure the menu is above other content */
+    }
+
+    .nav.expanded {
+        display: flex;
+    }
+
+    .nav a {
+        width: 100%;
+        text-align: center;
+        padding: 1em;
+        border-top: 1px solid #555; /* Slight visual separation between items */
+    }
+}
+
+/* Non-mobile styles */
+@media (min-width: var($breakpoint-md)) {
+    .nav {
+        flex-direction: row;
+    }
+
+    .nav a {
+        padding: 0 1em;
+        font-size: 1rem;
+    }
+
+    .hamburger {
+        display: none;
+    }
+}

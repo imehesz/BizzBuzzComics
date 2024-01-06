@@ -7,6 +7,17 @@
   pointer-events: none;
 }
 
+.app-container {
+  min-height: 100vh; /* viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* pushes footer to bottom */
+}
+
+main {
+  flex: 1; /* grows to fill available space, pushing the footer down */
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

@@ -1,0 +1,65 @@
+@import '../../../_variables.scss';
+
+.episodes-container {
+  display: block;
+  padding: 1rem;
+}
+
+.comic-info {
+    max-width: 960px;
+    margin: 0 auto;
+    width: 100%;
+
+    h1 {
+        text-align: center;
+    }
+}
+
+.episodes-list {
+    display: flex;
+    flex-direction: column;
+    max-width: 960px; // Sets the maximum width
+    margin: 0 auto; // Centers the block vertically and horizontally
+    width: 100%; // Makes sure it takes up to 100% of the paren
+}
+
+.episode-card {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: #fff; // Or any background color you prefer
+  border-radius: 4px; // Optional: for rounded corners
+  border-bottom: 1px solid #aaa;
+
+  .episode-order-id {
+    padding: 10px;
+  }
+
+  .episode-icon {
+    width: 75px; // Or the size of your choice
+    height: 75px; // Maintain aspect ratio
+    margin-right: 1rem;
+  }
+
+  .episode-details {
+    flex-grow: 1;
+
+    .episode-title {
+      margin: 0;
+      font-size: 1.2rem; // Or the size of your choice
+    }
+
+    .episode-date {
+      font-size: 0.9rem; // Or the size of your choice
+      color: #666; // Or any color you prefer
+    }
+  }
+}
+
+// Responsive styling if needed
+@media (min-width: $breakpoint-md) {
+  .episodes-list {
+    // Adjustments for medium screens and up
+  }
+}

@@ -1,0 +1,40 @@
+@import '../../../_variables.scss';
+
+.reader {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the content on the cross-axis */
+    padding: 1rem; /* Add padding around the content */
+}
+
+.page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the images */
+    max-width: $max-content-width; /* Sets the maximum width for the images container */
+    width: 100%; /* Ensures the container takes up the full width */
+}
+
+.comic-page {
+    width: 100%; /* Makes the image responsive */
+    max-width: 100%; /* Ensures the image is no wider than its container */
+    height: auto; /* Maintains the aspect ratio of the image */
+    margin-bottom: 0; /* Removes any gap between the images */
+}
+
+/* Responsive adjustments */
+@media (max-width: $breakpoint-lg) {
+    .page-content {
+        max-width: 100%; /* Allows the container to fill the available space */
+    }
+}
+
+@media (max-width: $breakpoint-md) {
+    .reader {
+        padding: 0.5rem; /* Adjusts padding on smaller screens */
+    }
+}
+
+@media (max-width: $breakpoint-sm) {
+    /* Add any further adjustments for small screens if necessary */
+}

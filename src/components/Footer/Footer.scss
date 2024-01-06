@@ -1,0 +1,37 @@
+/* Footer.css */
+
+@import '../../_variables.scss';
+
+.footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 1em 0;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: auto;
+}
+
+.container {
+  width: 90%;
+  margin: auto;
+}
+
+.text-muted {
+  color: #777;
+}
+
+/* For tablets and above */
+@media (min-width: var(--breakpoint-md)) {
+  .container {
+    width: 80%;
+  }
+}
+
+/* For desktops and above */
+@media (min-width: var(--breakpoint-lg)) {
+  .container {
+    width: 70%;
+  }
+}
