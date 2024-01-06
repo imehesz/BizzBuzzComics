@@ -57,9 +57,22 @@
   }
 }
 
+.dark .episode-card {
+    .episode-order-id {
+        color: $darkestColor;
+    }
+}
+
 // Responsive styling if needed
 @media (min-width: $breakpoint-md) {
   .episodes-list {
     // Adjustments for medium screens and up
   }
+}
+
+
+@media (max-width: $breakpoint-sm) {
+    .episodes-list .episode-icon {
+        display: none;
+    }
 }

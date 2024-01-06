@@ -1,3 +1,23 @@
+@import './_variables.scss';
+
+body {
+    background-color: $lightestColor;
+    color: $darkestColor;
+    transition: background-color 0.3s, color 0.3s; // Smooth transition for theme change
+}
+
+// Light theme styles
+body.light {
+    background-color: $lightestColor;
+    color: $darkestColor;
+}
+
+// Dark theme styles
+body.dark {
+    background-color: $darkestColor;
+    color: $lightestColor;
+}
+
 .App {
   text-align: center;
 }

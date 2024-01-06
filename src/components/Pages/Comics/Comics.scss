@@ -18,6 +18,10 @@
   overflow: hidden;
 }
 
+.dark .comic-card {
+    color: $darkestColor;
+}
+
 .comic-image {
   width: 100%;
   height: auto; /* Maintain aspect ratio */

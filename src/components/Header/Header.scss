@@ -1,6 +1,7 @@
 /* Header.css */
 @import '../../_variables.scss';
 
+
 .header {
     display: flex;
     position: relative;
@@ -35,6 +36,11 @@
     border: none;
     color: white;
     font-size: 2rem;
+}
+
+.theme-toggle {
+    width: 30px;
+    text-align: center;
 }
 
 /* Responsive styles */
@@ -83,4 +89,5 @@
     .hamburger {
         display: none;
     }
+    
 }
