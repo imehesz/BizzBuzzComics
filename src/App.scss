@@ -38,6 +38,10 @@ main {
   flex: 1; /* grows to fill available space, pushing the footer down */
 }
 
+.page-container {
+    max-width: $max-content-width;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

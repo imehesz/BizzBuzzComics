@@ -18,6 +18,8 @@ class Services {
         'seriesId', 'episodeId', 'orderId', 'pageLink'
     ]
 
+    dynConfigSturcture = [ 'key', 'value']
+
     constructor() {
         //https://sheets.googleapis.com/v4/spreadsheets/1zxgIQpGKZ5g2Kzbk0Xk6WGJGBG-jNrenTRv5OBzHCo8/values/Sheet1!A${tag.tipId}?key=
         // https://sheets.googleapis.com/v4/spreadsheets/185f327CqZNyAkWJh2hMu-J9EiT0yLK-zX8uOg1QKA6k/values/SERIES!A1:D500?key=AIzaSyBLySbKUYIzPNpscruuGrSpnA3VeZ1sdvk
@@ -70,8 +72,42 @@ class Services {
         })
     }
 
+    /**
+     * 
+     * @param {*} arrayData 
+     * @returns 
+     */
+    mapDynConfigData(arrayData) {
+        return arrayData.map(row => {
+            let confEntry = {}
+            this.dynConfigSturcture.forEach((fieldName, index) => {
+                confEntry[fieldName] = row[index]
+            })
+
+            return confEntry
+        })
+    }
+
     getSeriesAccessUrl (paramStr) {
         return `${config.SeriesInfoURL}${paramStr}?key=${config.GSheetAccessKey}`       
+    }
+
+    getDynConfigAccessUrl (paramStr) {
+        return `${config.DynConfigURL}${paramStr}?key=${config.GSheetAccessKey}`       
+    }
+
+    /**
+     * 
+     * @returns 
+     */
+    async getDynConfig() {
+        try {
+            const response = await fetch(this.getDynConfigAccessUrl('CONFIG!A1:B100'))
+            const data = await response.json()
+            return this.mapDynConfigData(data.values)
+        } catch(error) {
+            console.error('Error fetching config:', error)            
+        }
     }
 
     async getComics() {

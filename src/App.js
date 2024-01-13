@@ -5,7 +5,7 @@ import {
   Route
 } from 'react-router-dom';
 import { ComicsProvider } from './Services/ComicsProvider'
-import Home from './components/Home';
+import Home from './components/Pages/Home/Home';
 import './App.scss';
 
 import Footer from './components/Footer/Footer'

@@ -11,6 +11,8 @@
     background-color: $darkestColor;
     color: $lightestColor;
     border-bottom: 1px solid #000;
+
+    z-index: 1000;
 }
 
 .logo {

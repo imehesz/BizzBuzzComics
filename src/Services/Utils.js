@@ -8,6 +8,12 @@ class Utils {
      */
     obj = function() {
         return {
+            /**
+             * 
+             * @param {*} arr 
+             * @param {*} orderId 
+             * @returns 
+             */
             findNeighborsByOrderId: (arr, orderId) => {
                 let prev = null
                 let next = null
@@ -23,7 +29,15 @@ class Utils {
                 }
             
                 return { prev, next }
-            }
+            },
+
+            /**
+             * 
+             * @param {*} arr 
+             * @param {*} keyToFind 
+             * @returns 
+             */
+            getValByKey: (arr, keyToFind) => arr.find(item => item.key === keyToFind)?.value
         }
     }
 
