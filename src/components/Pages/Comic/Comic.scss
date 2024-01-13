@@ -6,7 +6,7 @@
 }
 
 .comic-info {
-    max-width: 960px;
+    max-width: $breakpoint-lg;
     margin: 0 auto;
     width: 100%;
 
@@ -18,7 +18,7 @@
 .episodes-list {
     display: flex;
     flex-direction: column;
-    max-width: 960px; // Sets the maximum width
+    max-width: $breakpoint-lg; // Sets the maximum width
     margin: 0 auto; // Centers the block vertically and horizontally
     width: 100%; // Makes sure it takes up to 100% of the paren
 }

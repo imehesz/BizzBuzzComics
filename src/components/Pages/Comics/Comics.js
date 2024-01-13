@@ -2,12 +2,15 @@ import React, { useContext } from 'react';
 import { ComicsContext } from '../../../Services/ComicsProvider';
 import './Comics.scss'
 import { Link } from 'react-router-dom';
+import Utils from '../../../Services/Utils';
 
 function Comics() {
     const defaultImage = 'https://i.imgur.com/Pdii38C.png'
     const { comics } = useContext(ComicsContext)
 
     const linkToComic = (comic) => `/comic/${comic.seriesId}`
+
+    Utils.site().setTitle('Comics List')
 
     return (
     <div className="comics-container">

@@ -8,8 +8,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.5em 1em;
-    background-color: #333;
-    color: white;
+    background-color: $darkestColor;
+    color: $lightestColor;
+    border-bottom: 1px solid #000;
 }
 
 .logo {

@@ -3,17 +3,22 @@ import { useParams } from 'react-router-dom'
 import Services from '../../../Services/Services'
 import config from '../../../AppConfig'
 import { Link } from 'react-router-dom'
+import DisqusComments from '../../Disqus/DisqusComments'
+import Utils from '../../../Services/Utils'
+
 import './Comic.scss'
 
 function Comic() {
-  const { seriesId } = useParams(); // Capture the seriesId from the URL
-  const [seriesInfo, setSeriesInfo] = useState(null)
-  const [episodes, setEpisodes] = useState([])
-  const defaultImage = config.defaultImageUrl
+    const { seriesId } = useParams(); // Capture the seriesId from the URL
+    const [seriesInfo, setSeriesInfo] = useState(null)
+    const [episodes, setEpisodes] = useState([])
+    const defaultImage = config.defaultImageUrl
+    let disqusConfig
 
     const getReaderLink = (episode) => {
         return `/comic/` + seriesInfo.seriesId + '/read/' + episode.episodeId
     }
+
 
   useEffect(() => {
     const fetchSeriesInfo = async () => {
@@ -30,13 +35,23 @@ function Comic() {
     };
 
     if (seriesId) {
-      fetchSeriesInfo();
+        fetchSeriesInfo();
     }
   }, [seriesId]);
 
-  if (!seriesInfo) {
-    return <div>Loading series information...</div>;
-  }
+    if (!seriesInfo) {
+        return <div>Loading series information...</div>;
+    }
+
+    if ( seriesId && seriesInfo ) {
+        disqusConfig = {
+            url: window.location.href,
+            identifier: `bzzbzz-${seriesId}`, // Unique identifier for each comic/episode
+            title: seriesInfo.title // Title of the current page
+        }
+
+        Utils.site().setTitle(seriesInfo.title)
+    }
 
   return (
     <div className='episodes-container'>
@@ -68,8 +83,9 @@ function Comic() {
                     </div>
                 </div>
             ))}
+
+            <DisqusComments config={disqusConfig} />
         </div>
-    
     </div>
   );
 }

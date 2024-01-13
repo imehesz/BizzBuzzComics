@@ -125,7 +125,7 @@ class Services {
             const data = await response.json()
             const rows = data.values
 
-            return "data in Services", this.mapPagesData(rows.filter(row => row[0] == seriesId && row[1] == episodeId))
+            return this.mapPagesData(rows.filter(row => row[0] == seriesId && row[1] == episodeId))
         } catch(error) {
             console.log('Error fetching pages:', error)
         }
