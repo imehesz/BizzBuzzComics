@@ -24,23 +24,19 @@ function Header() {
 
   return (
     <header className="header">
-      <img src="/path-to-your-logo.png" alt="BizzBuzz Comics Logo" className="logo" />
-      
-      <button 
-        className="hamburger" 
-        onClick={() => setIsNavExpanded(!isNavExpanded)}
-      >
-        {/* Icon can be replaced with an actual hamburger icon */}
-        <span>☰</span>
-      </button>
+        <img src="/path-to-your-logo.png" alt="BizzBuzz Comics Logo" className="logo" />
+            <button className="hamburger" onClick={() => setIsNavExpanded(!isNavExpanded)}>
+            {/* Icon can be replaced with an actual hamburger icon */}
+            <span>☰</span>
+        </button>
 
-      <nav className={`nav ${isNavExpanded ? 'expanded' : ''}`}>
-        <Link to="/home">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/comics">Comics</Link>
-        <a href="#contact">Contact</a>
-        <div onClick={toggleTheme} className='theme-toggle'>{theme === 'light' ? '\u{1F312}' : '\u{2600}'}</div>
-      </nav>
+        <nav className={`nav ${isNavExpanded ? 'expanded' : ''}`}>
+            <Link to="/home">Home</Link>
+            <Link to="/about">About</Link>
+            <Link to="/comics">Comics</Link>
+            <a href="#contact">Contact</a>
+            <div onClick={toggleTheme} className='theme-toggle'>{theme === 'light' ? '\u{1F312}' : '\u{2600}'}</div>
+        </nav>
     </header>
   );
 }
