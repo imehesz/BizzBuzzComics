@@ -1,0 +1,56 @@
+@import '../../_variables.scss';
+
+.slideshow-container {
+    position: relative;
+    max-width: 100%; // Ensures responsiveness
+    margin-top: 20px;
+
+    .slide {
+        text-align: center;
+        width: 100%;
+        opacity: 0; // Start with slides hidden
+        transition: opacity 2.0s ease; // Smooth transition for the opacity
+
+        &.active {
+            opacity: 1; // Only show the active slide
+        }
+
+        img {
+            max-width: 100%; // Responsive image
+            height: auto;
+        }
+
+        .description {
+            margin-top: -50px;
+            position: absolute;
+            margin: 0 auto;
+            width: 100%;
+        }
+    }
+
+    button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        cursor: pointer;
+        padding: 20px;
+        z-index: 100;
+        background-color: transparent;
+        font-size: 2em;
+        color: rgba(255,255,255,0.5);
+        height: 100%;
+
+        &.next {
+            right: 0;
+        }
+
+        &.prev {
+            left: 0;
+        }
+    }
+
+    button:hover {
+        background-color: rgba(0,0,0,.75);
+    }
+}
