@@ -8,10 +8,10 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.5em 1em;
-    background-color: $darkestColor;
     color: $lightestColor;
     border-bottom: 1px solid #000;
     background-color: rgba(0,0,0,.25);
+    height: 80px;
 
     z-index: 1000;
 }
@@ -34,7 +34,7 @@
     color: white;
     text-decoration: none;
     padding: 0 1em;
-    font-size: 1rem;
+    font-size: 1.5rem;
 }
 
 .hamburger {

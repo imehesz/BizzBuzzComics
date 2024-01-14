@@ -3,6 +3,7 @@ import { ConfigContext } from '../../../Services/ConfigProvider';
 import Services from '../../../Services/Services';
 import Utils from '../../../Services/Utils';
 import Slideshow from '../../Slideshow/Slideshow';
+import Featured from '../../Featured/Featured';
 
 import './Home.scss'
 // import FeaturedComic from './FeaturedComic'
@@ -49,13 +50,13 @@ function Home() {
                 <div></div>
 
                 <section>
-                <h1>aaa</h1>
-                <p>sadsadas</p>
-                <p>sadsadas</p>
-                <p>sadsadas</p>
-                <p>sadsadas</p>
-                <p>sadsadas</p>
-                <p>sadsadas</p>
+                    <h1 className="title">Latest</h1>
+                    <Featured />
+                </section>
+
+                <section>
+                    <h1 className='title'>Popular</h1>
+                    <Featured />
                 </section>
             </div>
     );

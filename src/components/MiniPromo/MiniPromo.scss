@@ -1,0 +1,26 @@
+@import '../../_variables.scss';
+
+.mini-promo {
+    text-align: center; // Center-align the text
+
+    a {
+        text-decoration: none; // Remove underline from links
+        color: inherit; // Keep the text color consistent
+    }
+
+    img {
+        max-width: 100%; // Make image responsive
+        height: auto; // Maintain aspect ratio
+        border-radius: 4px; // Optional: rounded corners for the image
+    }
+
+    h3 {
+        margin-top: 0;
+        position: absolute;
+        padding: 10px 0;
+        text-align: center;
+        background-color: rgba(0,0,0,0.85);
+        width: 100%;
+        font-size: 1rem;
+    }
+}

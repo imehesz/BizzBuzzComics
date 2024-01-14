@@ -56,7 +56,7 @@ function Comic() {
   return (
     <div className='episodes-container'>
         <div className='comic-info'>
-            <h1>{seriesInfo.title}</h1>
+            <h1 className="title">{seriesInfo.title}</h1>
             <p>{seriesInfo.summary}</p>
             <p>{seriesInfo.description}</p>
             {/* Display other series info here */}

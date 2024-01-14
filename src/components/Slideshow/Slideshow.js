@@ -1,17 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './Slideshow.scss'
 
 const Slideshow = ({ slides }) => {
-    const [currentSlide, setCurrentSlide] = useState(0);
+    const [currentSlide, setCurrentSlide] = useState(0)
 
     const nextSlide = () => {
-        setCurrentSlide(prev => (prev === slides.length - 1 ? 0 : prev + 1));
-    };
+        setCurrentSlide(prev => (prev === slides.length - 1 ? 0 : prev + 1))
+    }
 
     const prevSlide = () => {
-        setCurrentSlide(prev => (prev === 0 ? slides.length - 1 : prev - 1));
-    };
+        setCurrentSlide(prev => (prev === 0 ? slides.length - 1 : prev - 1))
+    }
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentSlide(prevSlide =>
+                prevSlide === slides.length - 1 ? 0 : prevSlide + 1
+            );
+        }, 5000); // Switch to the next slide every 5 seconds
+
+        return () => clearInterval(timer); // Clean up the interval on component unmount
+    }, [slides.length]);
 
     return (
         <div className="slideshow-container">
