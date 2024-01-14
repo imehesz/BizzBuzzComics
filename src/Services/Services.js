@@ -147,10 +147,26 @@ class Services {
                 const rows = data.values
     
                 return this.mapEpisodesData(rows.filter(row => row[0] == id && row[8] == 'Y'))
-            } catch (error) {
+        } catch (error) {
                 console.error('Error fetching comics:', error);
-            }
         }
+    }
+
+    /**
+     * 
+     * @returns 
+     */
+    async getAllEpisodes() {
+        try {
+            const response = await fetch(this.getSeriesAccessUrl('EPISODES!A2:K1000'))
+            const data = await response.json()
+            const rows = data.values
+    
+            return this.mapEpisodesData(rows.filter(row => row[8] == 'Y'))
+        } catch (error) {
+            console.error('Error fetching comics:', error)
+        }
+    }
     
 
     async getPages(seriesId, episodeId) {

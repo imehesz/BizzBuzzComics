@@ -1,4 +1,5 @@
 @import './_variables.scss';
+@import url('https://fonts.googleapis.com/css2?family=Bangers:wght@400;700&display=swap');
 
 body {
     background-color: $lightestColor;
@@ -44,6 +45,17 @@ main {
     margin: 0 auto;
 }
 
+h1.title {
+    font-family: "Bangers";
+    width: 100%;
+    font-size: 3em;
+    text-align: right;
+    color: orange;
+    border-bottom: 10px solid orange;
+    text-shadow: 5px 5px #000;
+    letter-spacing: 5px;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -72,4 +84,11 @@ main {
   to {
     transform: rotate(360deg);
   }
+}
+
+
+@media (max-width: $breakpoint-sm) {
+    h1.title {
+        text-align: center;
+    }
 }
