@@ -1,4 +1,6 @@
-import config from '../AppConfig' // Adjust the path based on where you placed config.js
+import config from '../AppConfig'
+import Utils from './Utils'
+import { compress, decompress } from 'lz-string'
 
 class Services {
     comicStructure = [
@@ -11,7 +13,7 @@ class Services {
         'seriesId', 'episodeId', 'orderId', 
         'episodeIconSmall', 'episodeIconLarge', 
         'title', 'summary', 'description', 
-        'published', 'publishDate'
+        'published', 'publishDate', 'tags'
     ]
 
     pagesStructure = [
@@ -21,9 +23,35 @@ class Services {
     dynConfigSturcture = [ 'key', 'value']
 
     constructor() {
-        //https://sheets.googleapis.com/v4/spreadsheets/1zxgIQpGKZ5g2Kzbk0Xk6WGJGBG-jNrenTRv5OBzHCo8/values/Sheet1!A${tag.tipId}?key=
-        // https://sheets.googleapis.com/v4/spreadsheets/185f327CqZNyAkWJh2hMu-J9EiT0yLK-zX8uOg1QKA6k/values/SERIES!A1:D500?key=AIzaSyBLySbKUYIzPNpscruuGrSpnA3VeZ1sdvk
-        this.sheetUrl = config.SeriesInfoURL // Replace with your Google Sheet's public URL
+        this.sheetUrl = config.SeriesInfoURL
+    }
+
+    /**
+     * 
+     * @param {*} apiString 
+     * @returns 
+     */
+    async fetchDataWithCache(apiString, accessFn) {
+        const cacheKey = `bzz-bzz_cache_${apiString}`
+        const cached = localStorage.getItem(cacheKey)
+
+        if (cached) {
+            const { data, timestamp } = JSON.parse(decompress(cached))
+            const isExpired = (new Date().getTime() - timestamp) > 3600000 // 1 hour in milliseconds
+
+            if (!isExpired) {
+                return data // Return cached data if not expired
+            }
+        }
+
+        // Fetch new data if not cached or cache is expired
+        const response = await fetch(accessFn(apiString))
+        const newData = await response.json()
+
+        // Cache the new data with a timestamp
+        localStorage.setItem(cacheKey, compress(JSON.stringify({ data: newData, timestamp: new Date().getTime() })))
+
+        return newData
     }
 
     /**
@@ -102,8 +130,8 @@ class Services {
      */
     async getDynConfig() {
         try {
-            const response = await fetch(this.getDynConfigAccessUrl('CONFIG!A1:B100'))
-            const data = await response.json()
+            const response = await this.fetchDataWithCache('CONFIG!A1:B1000', this.getDynConfigAccessUrl)
+            const data = response.json ? await response.json() : response
             return this.mapDynConfigData(data.values)
         } catch(error) {
             console.error('Error fetching config:', error)            
@@ -111,10 +139,9 @@ class Services {
     }
 
     async getComics() {
-    // Logic to fetch and return the list of comics
         try {
-            const response = await fetch(this.getSeriesAccessUrl('SERIES!A2:K1000'))
-            const data = await response.json()
+            const response = await this.fetchDataWithCache('SERIES!A2:K1000', this.getSeriesAccessUrl)
+            const data = response.json ? await response.json() : response
             return this.mapComicData(data.values) // Format or process data as needed
         } catch (error) {
             console.error('Error fetching comics:', error);
@@ -130,11 +157,6 @@ class Services {
         return fetchComics()
     }
 
-    async getSeriesById(seriesId) {
-        // Fetch series info from your Google Sheet or API endpoint
-        // Return the series info as an object
-    }
-
     /**
      * 
      * @param {*} seriesId 
@@ -142,8 +164,8 @@ class Services {
      */
     async getEpisodesBySeriesId(id) {
         try {
-                const response = await fetch(this.getSeriesAccessUrl('EPISODES!A2:K1000'))
-                const data = await response.json()
+                const response = await this.fetchDataWithCache('EPISODES!A2:K1000', this.getSeriesAccessUrl)
+                const data = response.json ? await response.json() : response
                 const rows = data.values
     
                 return this.mapEpisodesData(rows.filter(row => row[0] == id && row[8] == 'Y'))
@@ -158,8 +180,8 @@ class Services {
      */
     async getAllEpisodes() {
         try {
-            const response = await fetch(this.getSeriesAccessUrl('EPISODES!A2:K1000'))
-            const data = await response.json()
+            const response = await this.fetchDataWithCache('EPISODES!A2:K1000', this.getSeriesAccessUrl)
+            const data = response.json ? await response.json() : response
             const rows = data.values
     
             return this.mapEpisodesData(rows.filter(row => row[8] == 'Y'))
@@ -168,13 +190,16 @@ class Services {
         }
     }
     
-
+    /**
+     * 
+     * @param {*} seriesId 
+     * @param {*} episodeId 
+     * @returns 
+     */
     async getPages(seriesId, episodeId) {
-        // Logic to fetch episode data from Google Sheets or your API
-        // For example, using a URL to your API endpoint:
         try {
-            const response = await fetch(this.getSeriesAccessUrl('PAGES!A2:D10000'));
-            const data = await response.json()
+            const response = await this.fetchDataWithCache('PAGES!A2:D10000', this.getSeriesAccessUrl)
+            const data = response.json ? await response.json() : response
             const rows = data.values
 
             return this.mapPagesData(rows.filter(row => row[0] == seriesId && row[1] == episodeId))
@@ -184,4 +209,4 @@ class Services {
     }
 }
 
-export default new Services();
+export default new Services()

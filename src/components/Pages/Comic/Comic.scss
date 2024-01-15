@@ -9,6 +9,15 @@
     max-width: $breakpoint-lg;
     margin: 0 auto;
     width: 100%;
+
+    .summary {
+        font-size: 1.5em;
+    }
+
+    .description {
+        font-size: 1.25em;
+    }
+
 }
 
 .episodes-list {
@@ -17,6 +26,22 @@
     max-width: $breakpoint-lg; // Sets the maximum width
     margin: 0 auto; // Centers the block vertically and horizontally
     width: 100%; // Makes sure it takes up to 100% of the paren
+
+    .date-n-tags {
+        display: flex;
+        align-items: center;
+        justify-content: left;
+
+        p {
+            margin: 0;
+        }
+
+        .episode-date {
+            &_sm {
+                visibility: hidden;
+            }
+        }
+    }
 }
 
 .episode-card {
@@ -68,7 +93,21 @@
 
 
 @media (max-width: $breakpoint-sm) {
-    .episodes-list .episode-icon {
-        display: none;
+    .episodes-list {
+        .episode-icon {
+            display: none;
+        }
+        
+        .date-n-tags {
+            display: block;
+    
+            .episode-date {
+                visibility: hidden;
+    
+                &_sm {
+                    visibility: visible;
+                }
+            }
+        }
     }
 }

@@ -43,9 +43,11 @@ main {
     max-width: $max-content-width;
     width: 100%;
     margin: 0 auto;
+    background-color: rgba(0,0,0,.75);
+    padding: 10px;
 }
 
-h1.title {
+h1.title, h2.subtitle {
     font-family: "Bangers";
     width: 100%;
     font-size: 3em;
@@ -54,6 +56,10 @@ h1.title {
     border-bottom: 10px solid orange;
     text-shadow: 5px 5px #000;
     letter-spacing: 5px;
+}
+
+h2.subtitle {
+    font-size: 2.5em;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -77,6 +83,11 @@ h1.title {
   color: #61dafb;
 }
 
+a {
+    color: #3166ab;
+    text-decoration: none;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -90,5 +101,9 @@ h1.title {
 @media (max-width: $breakpoint-sm) {
     h1.title {
         text-align: center;
+    }
+
+    .page-container {
+        padding: 0;
     }
 }

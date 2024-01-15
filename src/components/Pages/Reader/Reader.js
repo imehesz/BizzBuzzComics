@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Services from '../../../Services/Services';
-import './Reader.scss';
 import Utils from '../../../Services/Utils';
 import { Link } from 'react-router-dom';
 import DisqusComments from '../../Disqus/DisqusComments'
+import Banner from '../../Banner/Banner'
+
+import './Reader.scss';
 
 function Reader() {
     const { seriesId, episodeId } = useParams();
@@ -64,32 +66,35 @@ function Reader() {
 
     // Assuming episodeData.pages is an array of page URLs
     return (
-        <div className="reader">
-            <section className='action-row action-row__top'>
-                {prevEpisode && <div title={prevEpisode.title}><Link to={Utils.comic().getReaderLink(prevEpisode)}>&#9664;</Link></div>}
-                {<span className="separator"> | {currentTitle} | </span>}
-                {prevEpisode && nextEpisode && <div title={nextEpisode.title}><Link to={Utils.comic().getReaderLink(nextEpisode)}>&#9654;</Link></div>}
-            </section>
-
-            <div className="page-content">
-                {episodeData.map((page, index) => (
-                    <img
-                        key={index}
-                        src={page.pageLink}
-                        alt={`Page ${index + 1}`}
-                        className="comic-page"
-                    />
-                ))}
+        <div class="page-container page-container__reader">
+            <Banner />
+            <div className="reader">
+                <section className='action-row action-row__top'>
+                    {prevEpisode && <div title={prevEpisode.title}><Link to={Utils.comic().getReaderLink(prevEpisode)}>&#9664;</Link></div>}
+                    {<span className="separator"> | {currentTitle} | </span>}
+                    {prevEpisode && nextEpisode && <div title={nextEpisode.title}><Link to={Utils.comic().getReaderLink(nextEpisode)}>&#9654;</Link></div>}
+                </section>
+    
+                <div className="page-content">
+                    {episodeData.map((page, index) => (
+                        <img
+                            key={index}
+                            src={page.pageLink}
+                            alt={`Page ${index + 1}`}
+                            className="comic-page"
+                        />
+                    ))}
+                </div>
+                <section className='action-row action-row__bottom'>
+                    {prevEpisode && <div title={prevEpisode.title}><Link to={Utils.comic().getReaderLink(prevEpisode)}>&#9664; {prevEpisode.title}</Link></div>}
+                    {prevEpisode && nextEpisode && <div className="separator">|</div>}
+                    {prevEpisode && nextEpisode && <div title={nextEpisode.title}><Link to={Utils.comic().getReaderLink(nextEpisode)}>{nextEpisode.title} &#9654;</Link></div>}
+                </section>
+    
+                <section className="disqus-container">
+                    <DisqusComments config={{url:window.location.href,identifier:`bzzbzz-${seriesId}-${episodeId}`}} />
+                </section>
             </div>
-            <section className='action-row action-row__bottom'>
-                {prevEpisode && <div title={prevEpisode.title}><Link to={Utils.comic().getReaderLink(prevEpisode)}>&#9664; {prevEpisode.title}</Link></div>}
-                {prevEpisode && nextEpisode && <div className="separator">|</div>}
-                {prevEpisode && nextEpisode && <div title={nextEpisode.title}><Link to={Utils.comic().getReaderLink(nextEpisode)}>{nextEpisode.title} &#9654;</Link></div>}
-            </section>
-
-            <section className="disqus-container">
-                <DisqusComments config={{url:window.location.href,identifier:`bzzbzz-${seriesId}-${episodeId}`}} />
-            </section>
         </div>
     );
 }

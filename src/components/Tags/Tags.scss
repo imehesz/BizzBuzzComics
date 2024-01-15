@@ -1,0 +1,36 @@
+@import '../../_variables.scss';
+
+.tags {
+    .tag {
+        background-color: #777;
+        color: #fff;
+        border-radius: 3px;
+        margin-right: 5px;
+        padding: 5px;
+        font-size: 9px;
+        font-weight: bolder;
+
+        &_horror {
+            color: #f00;
+            background-color: #000;
+        }
+
+        &_sci-fi {
+            color: #fff;
+            background-color: #33d;
+        }
+
+        &_14- {
+            background-color: red;
+        }
+
+        &_funny {
+            background-color: orangered;
+        }
+
+        &_romantic {
+            background-color: pink;
+            color: red;
+        }
+    }
+}

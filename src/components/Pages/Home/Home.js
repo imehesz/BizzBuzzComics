@@ -4,18 +4,12 @@ import Services from '../../../Services/Services';
 import Utils from '../../../Services/Utils';
 import Slideshow from '../../Slideshow/Slideshow';
 import Featured from '../../Featured/Featured';
+import Banner from '../../Banner/Banner'
 
 import './Home.scss'
-// import FeaturedComic from './FeaturedComic'
-// import LatestUpdates from './LatestUpdates'
-// import ComicOfTheDay from './ComicOfTheDay'
-// import ArtistSpotlight from './ArtistSpotLight'
 
 function Home() {
     const [dynConfig, setDynConfig] = useState([])
-    let homeBg
-    let backgroundStyle = {}
-
 
     let slides = []
 
@@ -31,9 +25,6 @@ function Home() {
     if( dynConfig ) {
         const cv = Utils.obj().getValByKey
 
-        homeBg = cv(dynConfig, "HomeBackground")
-        backgroundStyle.backgroundImage = homeBg ? `url(${homeBg})` : ''
-
         if(cv(dynConfig,"SlideShowSlides")) {
             slides = JSON.parse(cv(dynConfig, "SlideShowSlides")).map((el) => {return {url:el[0], link:el[1]}})
         }
@@ -41,7 +32,7 @@ function Home() {
 
     return (
             <div className='page-container page-container__home'>
-                <div className="banner" style={backgroundStyle}></div>
+                <Banner />
                 
                 <section>
                     <Slideshow slides={slides} />
@@ -55,7 +46,7 @@ function Home() {
                 </section>
 
                 <section>
-                    <h1 className='title'>Popular</h1>
+                    <h1 className='title'>Top 5 Series</h1>
                     <Featured />
                 </section>
             </div>

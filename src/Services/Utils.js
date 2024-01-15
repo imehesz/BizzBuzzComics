@@ -41,6 +41,20 @@ class Utils {
         }
     }
 
+    /**
+     * 
+     */
+    str = function() {
+        return {
+            /**
+             * 
+             * @param {*} str 
+             * @returns 
+             */
+            sanitize: (str) => str.replace(/\W/g, '-')
+        }
+    }
+
     site = function() {
         return {
             setTitle: (str) => document.title = `${str} || BizzBuzzComics.com`
