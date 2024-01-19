@@ -4,6 +4,7 @@ import Services from '../../../Services/Services';
 import Utils from '../../../Services/Utils';
 import Slideshow from '../../Slideshow/Slideshow';
 import Featured from '../../Featured/Featured';
+import Random from '../../Random/Random'
 import Banner from '../../Banner/Banner'
 
 import './Home.scss'
@@ -46,8 +47,8 @@ function Home() {
                 </section>
 
                 <section>
-                    <h1 className='title'>Top 5 Series</h1>
-                    <Featured />
+                    <h1 className='title'>Staff Picks</h1>
+                    <Random />
                 </section>
             </div>
     );

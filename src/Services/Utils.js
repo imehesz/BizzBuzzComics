@@ -37,7 +37,24 @@ class Utils {
              * @param {*} keyToFind 
              * @returns 
              */
-            getValByKey: (arr, keyToFind) => arr.find(item => item.key === keyToFind)?.value
+            getValByKey: (arr, keyToFind) => arr.find(item => item.key === keyToFind)?.value,
+
+            /**
+             * 
+             * @param {*} array 
+             * @returns 
+             */
+            shuffleArray: (arr) => {
+                let currentIndex = arr.length, randomIndex
+            
+                while (currentIndex !== 0) {
+                    randomIndex = Math.floor(Math.random() * currentIndex)
+                    currentIndex--
+                    [arr[currentIndex], arr[randomIndex]] = [arr[randomIndex], arr[currentIndex]]
+                }
+            
+                return arr;
+            }
         }
     }
 
