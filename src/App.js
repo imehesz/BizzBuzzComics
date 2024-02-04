@@ -13,7 +13,8 @@ import About from './components/Pages/About/About'
 import Header from './components/Header/Header'
 import Comics from './components/Pages/Comics/Comics'
 import Comic from './components/Pages/Comic/Comic'
-import Reader from './components/Pages/Reader/Reader';
+import Reader from './components/Pages/Reader/Reader'
+import ComicsSearch from './components/Pages/ComicsSearch/ComicsSearch'
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
                     <Route path="/comics" element={<Comics />} />
                     <Route path="/comic/:seriesId" element={<Comic />} />
                     <Route path="/comic/:seriesId/read/:episodeId" element={<Reader />} />
+                    <Route path="/comics/search/:searchWord" element={<ComicsSearch/>} />
                     {/* Add more routes here as needed */}
                 </Routes>
             </main>
