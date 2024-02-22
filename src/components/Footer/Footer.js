@@ -8,7 +8,7 @@ function Footer() {
         <div>
           <img src="/bizzbuzzcomics-logo__light.svg" title="BizzBuzzComics.com" className="logo" />
         </div>
-        <span className="text-muted">© 2014-2024 BizzBuzz Comics by SAD BOI WORKS</span>
+        <span className="">© 2014-2024 BizzBuzz Comics by SAD BOI WORKS</span>
       </div>
     </footer>
   );

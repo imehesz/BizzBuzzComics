@@ -24,7 +24,7 @@ function Header() {
   return (
     <header className="header">
         <div className='nav-wrapper'>
-            <img src="/logo-top_v2.png" title="BizzBuzzComics.com" className="logo" />
+            <a href="//bizzbuzzcomics.com"><img src="/logo-top_v2.png" title="BizzBuzzComics.com" className="logo" /></a>
             <button className="hamburger" onClick={() => setIsNavExpanded(!isNavExpanded)}>
                 <span>☰</span>
             </button>
