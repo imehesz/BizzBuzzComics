@@ -4,6 +4,7 @@ import Banner from '../../Banner/Banner'
 import Services from '../../../Services/Services'
 import { ComicsContext } from '../../../Services/ComicsProvider'
 import Tags from '../../Tags/Tags'
+import SearchBar from '../../SearchBar/SearchBar'
 
 function ComicsSearch() {
     let {searchWord} = useParams()
@@ -42,7 +43,10 @@ function ComicsSearch() {
 
     return(
         <div className="page-container page-container__comics">
+            <SearchBar />
+
             <Banner />
+            
             <h1 className="title">Searched for: {searchWord}</h1>
         
             <div className='comics-container'>

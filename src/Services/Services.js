@@ -1,5 +1,4 @@
 import config from '../AppConfig'
-import Utils from './Utils'
 import { compress, decompress } from 'lz-string'
 
 class Services {
@@ -117,11 +116,25 @@ class Services {
     }
 
     getSeriesAccessUrl (paramStr) {
-        return `${config.SeriesInfoURL}${paramStr}?key=${config.GSheetAccessKey}`       
+        console.log("paramstr", paramStr)
+        if( config.env == 'PROD' ) {
+            switch(paramStr.match(/^[^!]*/)[0]) {
+                case 'SERIES': return config.data.prod.series
+                case 'PAGES': return config.data.prod.pages
+                case 'EPISODES': return config.data.prod.episodes
+                default: console.error("YIKES! Data read error :(")
+            }
+        } else {
+            return `${config.SeriesInfoURL}${paramStr}?key=${config.GSheetAccessKey}`
+        }
     }
 
     getDynConfigAccessUrl (paramStr) {
-        return `${config.DynConfigURL}${paramStr}?key=${config.GSheetAccessKey}`       
+        if( config.env == 'PROD' ) {
+            return config.data.prod.config
+        } else {
+            return `${config.DynConfigURL}${paramStr}?key=${config.GSheetAccessKey}`
+        }
     }
 
     /**

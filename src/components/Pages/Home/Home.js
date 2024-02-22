@@ -1,11 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { ConfigContext } from '../../../Services/ConfigProvider';
-import Services from '../../../Services/Services';
-import Utils from '../../../Services/Utils';
-import Slideshow from '../../Slideshow/Slideshow';
-import Featured from '../../Featured/Featured';
+import React, { useContext, useEffect, useState } from 'react'
+import { ConfigContext } from '../../../Services/ConfigProvider'
+import Services from '../../../Services/Services'
+import Utils from '../../../Services/Utils'
+import Slideshow from '../../Slideshow/Slideshow'
+import Featured from '../../Featured/Featured'
 import Random from '../../Random/Random'
 import Banner from '../../Banner/Banner'
+import SearchBar from '../../SearchBar/SearchBar'
 
 import './Home.scss'
 
@@ -33,6 +34,8 @@ function Home() {
 
     return (
             <div className='page-container page-container__home'>
+                <SearchBar />
+
                 <Banner />
                 
                 <section>

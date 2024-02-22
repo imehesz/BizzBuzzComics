@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
-import { ComicsContext } from '../../../Services/ComicsProvider';
+import React, { useContext } from 'react'
+import { ComicsContext } from '../../../Services/ComicsProvider'
+import { Link } from 'react-router-dom'
+import Utils from '../../../Services/Utils'
+import Banner from '../../Banner/Banner'
+import Tags from '../../Tags/Tags'
+import SearchBar from '../../SearchBar/SearchBar'
+
 import './Comics.scss'
-import { Link } from 'react-router-dom';
-import Utils from '../../../Services/Utils';
-import Banner from '../../Banner/Banner';
-import Tags from '../../Tags/Tags';
 
 function Comics() {
     const defaultImage = 'https://i.imgur.com/Pdii38C.png'
@@ -16,7 +18,9 @@ function Comics() {
 
     return (
     <div className="page-container page-container__comics">
-      <Banner />
+        <SearchBar />
+
+        <Banner />
 
         <h1 className="title">Comics</h1>
 
