@@ -1,37 +1,50 @@
 @import '../../../_variables.scss';
 
-.reader {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centers the content on the cross-axis */
-    padding: 1rem; /* Add padding around the content */
+.page-container__reader {
+    /* TODO FIX THIS!! */
 
     .action-row {
         display: flex;
         margin-top: 10px;
         font-size: 20px;
-
-        a {
-            text-decoration: none;
-            color: $darkestColor;
+        width: 100%;
+        justify-content: space-between;
+    
+        .first {
+            flex-shrink: 0;
         }
-
-        &.action-row__top {
-            margin-top: 0;
+    
+        .middle {
+            display: flex;
         }
-
+    
         .separator {
-            margin: 0 10px;
+            // Add some space around the arrows
+            &::before,
+            &::after {
+                content: '|';
+                margin: 0 10px; // Adjust the space as needed
+            }
+        }
+    
+        .last {
+            flex-shrink: 0;
         }
     }
+}
+.reader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
 }
 
 .page-content {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centers the images */
-    max-width: $max-content-width; /* Sets the maximum width for the images container */
-    width: 100%; /* Ensures the container takes up the full width */
+    align-items: center;
+    max-width: $max-content-width;
+    width: 100%;
 }
 
 .comic-page {
@@ -44,7 +57,10 @@
 .dark {
     .action-row {
         a {
-            color: $lightestColor;
+            color: $linkOnDark;
+            &:hover {
+                color: $linkOnDarkHover;
+            }
         }
     }
 }

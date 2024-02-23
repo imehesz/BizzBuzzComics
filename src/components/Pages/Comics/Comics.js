@@ -27,21 +27,25 @@ function Comics() {
         <div className='comics-container'>
 
             {comics.map(comic => (
-              <div className="comic-card" key={comic.seriesId}>
-                <img 
-                    className="comic-image"
-                    src={comic.seriesIconSmall || defaultImage}
-                    alt={`Cover for ${comic.title}`}
-                    onError={(e) => e.target.src = defaultImage}
-                />
-                <div className="comic-info">
-                    <h3 className="comic-title"><Link to={linkToComic(comic)}>{comic.title}</Link></h3>
-                    <p className="comic-genre">{comic.genre}</p> {/* Replace `comic.genre` with actual data */}
-                    <div className="comic-actions">
-                        <Tags key={Math.random()} tagsString={comic.tags} />
+                <div className="comic-card" key={comic.seriesId}>
+                    <Link to={linkToComic(comic)}>
+                        <img 
+                            className="comic-image"
+                            src={comic.seriesIconSmall || defaultImage}
+                            alt={`Cover for ${comic.title}`}
+                            onError={(e) => e.target.src = defaultImage}
+                        />
+                    </Link>
+                    <div className="comic-info">
+                        <h3 className="comic-title">
+                            <Link to={linkToComic(comic)}>{comic.title}</Link>
+                        </h3>
+                        <p className="comic-genre">{comic.genre}</p> {/* Replace `comic.genre` with actual data */}
+                        <div className="comic-actions">
+                            <Tags key={Math.random()} tagsString={comic.tags} />
+                        </div>
                     </div>
                 </div>
-              </div>
             ))}
 
         </div>

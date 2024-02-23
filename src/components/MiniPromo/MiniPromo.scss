@@ -1,17 +1,20 @@
 @import '../../_variables.scss';
 
 .mini-promo {
-    text-align: center; // Center-align the text
+    text-align: center; 
 
     a {
-        text-decoration: none; // Remove underline from links
-        color: inherit; // Keep the text color consistent
+        text-decoration: none; 
+        color: $linkOnDark;
+        &:hover {
+            color: $linkOnDarkHover;
+        }
     }
 
     img {
-        max-width: 100%; // Make image responsive
-        height: auto; // Maintain aspect ratio
-        border-radius: 4px; // Optional: rounded corners for the image
+        max-width: 100%; 
+        height: auto; 
+        border-radius: 4px;
     }
 
     h3 {

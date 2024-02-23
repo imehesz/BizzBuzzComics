@@ -84,8 +84,12 @@ h2.subtitle {
 }
 
 a {
-    color: #3166ab;
+    color: $linkOnLight;
     text-decoration: none;
+
+    &:hover {
+        color: $linkOnLightHover;
+    }
 }
 
 @keyframes App-logo-spin {

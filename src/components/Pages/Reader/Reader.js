@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import Services from '../../../Services/Services';
-import Utils from '../../../Services/Utils';
-import { Link } from 'react-router-dom';
+/* eslint-disable no-restricted-globals */
+import React, { useState, useEffect } from 'react'
+import { useParams, useNavigate, Navigate } from 'react-router-dom'
+import Services from '../../../Services/Services'
+import Utils from '../../../Services/Utils'
+import { Link } from 'react-router-dom'
 import DisqusComments from '../../Disqus/DisqusComments'
 import Banner from '../../Banner/Banner'
 
@@ -10,22 +11,48 @@ import './Reader.scss';
 
 function Reader() {
     const { seriesId, episodeId } = useParams();
-    const [episodeData, setEpisodeData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [episodeData, setEpisodeData] = useState(null)
+    const [isLoading, setIsLoading] = useState(true)
     const [prevEpisode, setPrevEpisode] = useState(null)
     const [nextEpisode, setNextEpisode] = useState(null)
+    const [firstEpisode, setFirstEpisode] = useState(null)
     const [currentTitle, setCurrentTitle] = useState(null)
+    const [seriesData, setSeriesData] = useState(null)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const fetchSeriesData = async () => {
+            try {
+                const data = await Services.getComicById(seriesId)
+
+                // TODO FIX Double click bug
+                if(data[0] && data[0].tags.indexOf('18') > -1) {
+                    const adult = confirm("This comic is 18+ content. Are you sure you want to continue?")
+
+                    if(!adult) {
+                        navigate('/')                         
+                    }
+                }
+
+                setSeriesData(data[0])
+            } catch (error) {
+                console.error('Failed to fetch series data:', error)
+            }
+        }
+
+        if(seriesId) {
+            fetchSeriesData()
+        }
+    }, [seriesId])
 
     useEffect(() => {
         const fetchEpisodeData = async () => {
             setIsLoading(true);
             try {
-                // Use the Services class to load episode data by seriesId and episodeId
                 const data = await Services.getPages(seriesId, episodeId);
                 setEpisodeData(data);
             } catch (error) {
                 console.error('Failed to fetch episode data:', error);
-                // Optionally, handle error state as needed
             } finally {
                 setIsLoading(false);
             }
@@ -39,9 +66,11 @@ function Reader() {
                 let currentEpisode = data.find((ep) => ep.seriesId === seriesId && ep.episodeId === episodeId)
                 let currentOrderId = currentEpisode.orderId
                 let prevNextEpisodes = Utils.obj().findNeighborsByOrderId(data, currentOrderId)
+                let firstEpisode = data.find((ep) => ep.orderId === '1')
 
                 setPrevEpisode(prevNextEpisodes.prev)
                 setNextEpisode(prevNextEpisodes.next)
+                setFirstEpisode(firstEpisode)
                 setCurrentTitle(currentEpisode.title)
 
                 Utils.site().setTitle(currentEpisode.title)
@@ -68,12 +97,18 @@ function Reader() {
     return (
         <div class="page-container page-container__reader">
             <Banner />
-            <div className="reader">
-                <section className='action-row action-row__top'>
-                    {prevEpisode && <div title={prevEpisode.title}><Link to={Utils.comic().getReaderLink(prevEpisode)}>&#9664;</Link></div>}
-                    {<span className="separator"> | {currentTitle} | </span>}
-                    {prevEpisode && nextEpisode && <div title={nextEpisode.title}><Link to={Utils.comic().getReaderLink(nextEpisode)}>&#9654;</Link></div>}
+
+            <section className='action-row action-row__top'>
+                    {firstEpisode && <div className='first' title='Jump To First Episode'><Link to={Utils.comic().getReaderLink(firstEpisode)}>First Episode</Link></div>}
+                    <div className='middle'>
+                        {prevEpisode && <div title={prevEpisode.title}><Link to={Utils.comic().getReaderLink(prevEpisode)}>&#9664;</Link></div>}
+                        {<span className='separator'>{currentTitle}</span>}
+                        {prevEpisode && nextEpisode && <div title={nextEpisode.title}><Link to={Utils.comic().getReaderLink(nextEpisode)}>&#9654;</Link></div>}
+                    </div>
+                    {seriesData && <div className='last' title='Jump To Series Page'><Link to={`/comic/${seriesData.seriesId}`}>{seriesData.title}</Link></div>}
                 </section>
+            <div className="reader">
+                
     
                 <div className="page-content">
                     {episodeData.map((page, index) => (

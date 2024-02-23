@@ -1,8 +1,19 @@
 /* About.css */
+@import '../../../_variables.scss';
 
-.about {
-  padding: 2rem;
-  text-align: center;
+.page-container__about {
+    padding: 2rem;
+
+    a {
+        color: $linkOnDark;
+        &:hover {
+            color: $linkOnDarkHover;
+        }
+    }
+
+    .bizz-buzz-stripe {
+        max-width: 100%;
+    }
 }
 
 /* You can add more styles here to fit the theme of your site */

@@ -62,10 +62,10 @@ function Comic() {
 
         <div className='episodes-container'>
             <div className='comic-info'>
+                <div className="icon"><img src={seriesInfo.seriesIconSmall} /></div>
                 <h1 className="title">{seriesInfo.title}</h1>
-                <p class="summary">{seriesInfo.summary}</p>
-                <p class="description">{seriesInfo.description}</p>
-                {/* Display other series info here */}
+                <p className="summary">{seriesInfo.summary}</p>
+                <p className="description">{seriesInfo.description}</p>
             </div>
     
             <div className='episodes-list'>

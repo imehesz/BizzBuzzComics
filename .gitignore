@@ -23,3 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 AppConfig.js
+package-lock.json
+public/data

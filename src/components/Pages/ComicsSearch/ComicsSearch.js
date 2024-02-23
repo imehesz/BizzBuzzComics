@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Banner from '../../Banner/Banner'
 import Services from '../../../Services/Services'
 import { ComicsContext } from '../../../Services/ComicsProvider'
@@ -12,6 +12,9 @@ function ComicsSearch() {
     const { comics } = useContext(ComicsContext)
     const [episodes, setEpisodes] = useState([])
     const [searchAbles, setSearchAbles] = useState([])
+
+    const linkToComic = (comic) => `/comic/${comic.seriesId}`
+    const linkToEpisode = (episode) => `/comic/${episode.seriesId}/read/${episode.episodeId}`
 
     useEffect(() => {
         const fetchAllEpisodes = async () => {
@@ -29,6 +32,7 @@ function ComicsSearch() {
         setSearchAbles(tmpSearchArr.map(item => {
             let retObj = {
                 seriesId: item.seriesId,
+                episodeId: item.episodeId,
                 type: item.episodeId ? 'episode' : 'series',
                 title: item.title,
                 imageUrl: item.episodeId ? item.episodeIconSmall : item.seriesIconSmall,
@@ -53,13 +57,20 @@ function ComicsSearch() {
     
                 {searchAbles.filter( i => i.searchText.indexOf(searchWord) > -1 ).map(comic => (
                   <div className="comic-card" key={Math.random()}>
-                    <img 
-                        className="comic-image"
-                        src={comic.imageUrl}
-                        alt={`Cover for ${comic.title}`}
-                    />
+                    <Link to={comic.type == 'episode' ? linkToEpisode(comic) : linkToComic(comic)}>
+                        <img 
+                            className="comic-image"
+                            src={comic.imageUrl}
+                            alt={`Cover for ${comic.title}`}
+                            title={comic.title}
+                        />
+                    </Link>
                     <div className="comic-info">
-                        <h3 className="comic-title">{comic.title}</h3>
+                        <h3 className="comic-title">
+                            <Link to={comic.type == 'episode' ? linkToEpisode(comic) : linkToComic(comic)} title={comic.title}>
+                                {comic.title}
+                            </Link>
+                        </h3>
                         <div className="comic-actions">
                             <Tags key={Math.random()} tagsString={comic.tags} />
                         </div>
