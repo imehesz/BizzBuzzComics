@@ -15,6 +15,7 @@ import Comics from './components/Pages/Comics/Comics'
 import Comic from './components/Pages/Comic/Comic'
 import Reader from './components/Pages/Reader/Reader'
 import ComicsSearch from './components/Pages/ComicsSearch/ComicsSearch'
+import Contact from './components/Pages/Contact/Contact'
 
 function App() {
   return (
@@ -32,7 +33,7 @@ function App() {
                     <Route path="/comic/:seriesId" element={<Comic />} />
                     <Route path="/comic/:seriesId/read/:episodeId" element={<Reader />} />
                     <Route path="/comics/search/:searchWord" element={<ComicsSearch/>} />
-                    {/* Add more routes here as needed */}
+                    <Route path="/contact" element={<Contact />} />
                 </Routes>
             </main>
             

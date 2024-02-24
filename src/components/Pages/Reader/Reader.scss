@@ -54,13 +54,11 @@
     margin-bottom: 0; /* Removes any gap between the images */
 }
 
-.dark {
-    .action-row {
-        a {
-            color: $linkOnDark;
-            &:hover {
-                color: $linkOnDarkHover;
-            }
+.action-row {
+    a {
+        color: $linkOnDark;
+        &:hover {
+            color: $linkOnDarkHover;
         }
     }
 }

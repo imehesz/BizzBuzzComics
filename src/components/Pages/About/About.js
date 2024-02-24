@@ -30,7 +30,7 @@ function About() {
   return (
     <div className='page-container page-container__about'>
         <Banner />
-        <h1>About BizzBuzz Comics</h1>
+        <h1 className="title">About Bizz Buzz Comics</h1>
         <p>
             Welcome to <strong>Bizz Buzz Comics</strong>, where every strip is a journey, and every panel, a universe waiting to unfold. Born from a passion for storytelling and a decade-long journey that began in 2014, we've been bringing original webcomics to fans across the globe, one frame at a time.
         </p>
@@ -54,7 +54,7 @@ function About() {
         </p>
 
         <p>
-            You can follow us on <a href="https://www.facebook.com/BizzBuzzComics" target="_blank">Facebook</a>, read our stories here or on <a href="https://www.webtoons.com/en/creator/BizzBuzzComics" target="_blank">Webtoons</a> to stay updated on our latest releases, behind-the-scenes glimpses, and more. Whether you're a long-time fan or a curious newcomer, there's always something new to discover at <strong>Bizz Buzz Comics</strong>.
+            You can follow us on <a href="https://www.facebook.com/BizzBuzzComics" target="_blank" rel="noreferrer">Facebook</a>, read our stories here or on <a href="https://www.webtoons.com/en/creator/BizzBuzzComics" target="_blank" rel="noreferrer">Webtoons</a> to stay updated on our latest releases, behind-the-scenes glimpses, and more. Whether you're a long-time fan or a curious newcomer, there's always something new to discover at <strong>Bizz Buzz Comics</strong>.
         </p>
 
         <p>Thank you for being a part of our story, thank you for reading. Here's to the next chapter and beyond!</p>
@@ -64,7 +64,7 @@ function About() {
         <p>
             <ul>
                 {articles.map(article => (
-                    <li><a href={article.url} target="_blank">{article.label}</a></li>
+                    <li><a href={article.url} target="_blank" rel="noreferrer">{article.label}</a></li>
                 ))}
 
             </ul>
