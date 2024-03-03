@@ -1,0 +1,11 @@
+@import '../../_variables.scss';
+
+.react-responsive-modal-modal {
+    background-color: red;
+    border-radius: 10px;
+    text-align: center;
+
+    p {
+        font-size: 2em;
+    }
+}

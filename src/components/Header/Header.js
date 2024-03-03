@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Header.scss'; // Importing the CSS for the Header
 import { Link } from 'react-router-dom'
+import ConsentModal from '../ConsentModal/ConsentModal'
 
 function Header() {
     const [isNavExpanded, setIsNavExpanded] = useState(false)
@@ -25,6 +26,8 @@ function Header() {
 
   return (
     <header className="header">
+        <ConsentModal />
+
         <div className='nav-wrapper'>
             <a href="//bizzbuzzcomics.com"><img src="/logo-top_v2.png" title="BizzBuzzComics.com" className="logo" alt="logo" /></a>
             <button className="hamburger" onClick={() => setIsNavExpanded(!isNavExpanded)}>
