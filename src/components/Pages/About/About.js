@@ -23,7 +23,11 @@ function About() {
         const cv = Utils.obj().getValByKey
 
         if(cv(dynConfig,"SlideShowSlides")) {
+            try {
             articles = JSON.parse(cv(dynConfig, "Articles")).map((el) => {return {label:el[0], url:el[1]}})
+            } catch (error) {
+                console.error("Error parsing articles", error)
+            }
         }
     }
 
