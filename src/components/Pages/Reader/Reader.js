@@ -24,16 +24,6 @@ function Reader() {
         const fetchSeriesData = async () => {
             try {
                 const data = await Services.getComicById(seriesId)
-
-                // TODO FIX Double click bug
-                if(data[0] && data[0].tags.indexOf('18') > -1) {
-                    const adult = confirm("This comic is 18+ content. Are you sure you want to continue?")
-
-                    if(!adult) {
-                        navigate('/')                         
-                    }
-                }
-
                 setSeriesData(data[0])
             } catch (error) {
                 console.error('Failed to fetch series data:', error)
