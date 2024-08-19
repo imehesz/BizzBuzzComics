@@ -72,6 +72,8 @@ function Reader() {
         if (seriesId && episodeId) {
             fetchEpisodeData()
             fetchEpisodesData()
+
+            window.scrollTo(0,0)
         }
     }, [seriesId, episodeId])
 
@@ -85,21 +87,22 @@ function Reader() {
 
     // Assuming episodeData.pages is an array of page URLs
     return (
-        <div class="page-container page-container__reader">
+        <div className="page-container page-container__reader">
             <Banner />
 
             <section className='action-row action-row__top'>
-                    {firstEpisode && <div className='first' title='Jump To First Episode'><Link to={Utils.comic().getReaderLink(firstEpisode)}>First Episode</Link></div>}
-                    <div className='middle'>
-                        {prevEpisode && <div title={prevEpisode.title}><Link to={Utils.comic().getReaderLink(prevEpisode)}>&#9664;</Link></div>}
-                        {<span className='separator'>{currentTitle}</span>}
-                        {prevEpisode && nextEpisode && <div title={nextEpisode.title}><Link to={Utils.comic().getReaderLink(nextEpisode)}>&#9654;</Link></div>}
-                    </div>
-                    {seriesData && <div className='last' title='Jump To Series Page'><Link to={`/comic/${seriesData.seriesId}`}>{seriesData.title}</Link></div>}
-                </section>
+                {prevEpisode && <div title={prevEpisode.title}><Link to={Utils.comic().getReaderLink(prevEpisode)}>&#9664; {prevEpisode.title}</Link></div>}
+                {!prevEpisode && <div></div>}
+
+                <div className='middle'>
+                    {<span className='separator'>{currentTitle}</span>}
+                </div>
+
+                {nextEpisode && <div title={nextEpisode.title}><Link to={Utils.comic().getReaderLink(nextEpisode)}>{nextEpisode.title} &#9654;</Link></div>}
+                {!nextEpisode && <div></div>}
+            </section>
+
             <div className="reader">
-                
-    
                 <div className="page-content">
                     {episodeData.map((page, index) => (
                         <img
@@ -112,8 +115,19 @@ function Reader() {
                 </div>
                 <section className='action-row action-row__bottom'>
                     {prevEpisode && <div title={prevEpisode.title}><Link to={Utils.comic().getReaderLink(prevEpisode)}>&#9664; {prevEpisode.title}</Link></div>}
-                    {prevEpisode && nextEpisode && <div className="separator">|</div>}
-                    {prevEpisode && nextEpisode && <div title={nextEpisode.title}><Link to={Utils.comic().getReaderLink(nextEpisode)}>{nextEpisode.title} &#9654;</Link></div>}
+                    {!prevEpisode && <div></div>}
+
+                    <div className='middle'>
+                        {<span className='separator'>{currentTitle}</span>}
+                    </div>
+
+                    {nextEpisode && <div title={nextEpisode.title}><Link to={Utils.comic().getReaderLink(nextEpisode)}>{nextEpisode.title} &#9654;</Link></div>}
+                    {!nextEpisode && <div></div>}
+                </section>
+
+                <section className='action-row action-row__bottom'> 
+                    {firstEpisode && <div className='first' title='Jump To First Episode'><Link to={Utils.comic().getReaderLink(firstEpisode)}>First Episode</Link></div>}
+                    {seriesData && <div className='last' title='Jump To Series Page'><Link to={`/comic/${seriesData.seriesId}`}>{seriesData.title}</Link></div>}
                 </section>
     
                 <section className="disqus-container">
