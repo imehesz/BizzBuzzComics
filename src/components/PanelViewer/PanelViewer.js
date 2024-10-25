@@ -5,6 +5,8 @@ const PanelViewer = ({ pages, initialPanelIndex = 0, closeFn }) => {
     const canvasRef = useRef(null);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const [currentPage, setCurrentPage] = useState(null);
+    const [nextPage, setNextPage] = useState(null);
+    const [prevPage, setPrevPage] = useState(null);
     const [currentPanelIndex, setCurrentPanelIndex] = useState(initialPanelIndex);
     const [transition, setTransition] = useState({ from: null, to: null, progress: 1 });
 
@@ -15,7 +17,35 @@ const PanelViewer = ({ pages, initialPanelIndex = 0, closeFn }) => {
         image.onload = () => {
             setCurrentPage(image);
         };
+
+        cachePages(pageIndex)
     };
+    
+    /**
+     * cache pages for faster loading
+     * 
+     * @param {*} pageIndex 
+     */
+    const cachePages = (pageIndex) => {
+        const prevPageIndex = pageIndex - 1
+        const nextPageIndex = pageIndex + 1
+
+        if (prevPageIndex >= 0) {
+            const prevImage = new Image()
+            prevImage.src = pages[prevPageIndex].url
+            prevImage.onload = () => {
+                setPrevPage(prevImage)
+            }
+        }
+
+        if (nextPageIndex < pages.length) {
+            const nextImage = new Image()
+            nextImage.src = pages[nextPageIndex].url
+            nextImage.onload = () => {
+                setNextPage(nextImage)
+            }
+        }
+    }
 
     useEffect(() => {
         if (pages && pages.length > 0) {

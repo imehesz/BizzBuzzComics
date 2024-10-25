@@ -19,10 +19,26 @@ class Services {
         'seriesId', 'episodeId', 'orderId', 'pageLink'
     ]
 
+    panelsStructure = [
+        'seriesId', 'episodeId', 'orderId', 'pageLink', 'coordinates'
+    ]
+
     dynConfigSturcture = [ 'key', 'value']
 
     constructor() {
         this.sheetUrl = config.SeriesInfoURL
+    }
+
+    /**
+     * 
+     * @param {*} apiString 
+     * @param {*} accessFn 
+     * @returns 
+     */
+    async fetchDataWithoutCache(apiString, accessFn) {
+        const response = await fetch(accessFn(apiString))
+        const data = await response.json()
+        return data
     }
 
     /**
@@ -98,6 +114,27 @@ class Services {
             return page
         })
     }
+
+    /**
+     * 
+     * @param {*} arrayData 
+     * @returns 
+     */
+    mapPanelsData(arrayData) {
+        return arrayData.map(row => {
+            let panel = {}
+            this.panelsStructure.forEach((fieldName, index) => {
+                if( fieldName === 'coordinates') {
+                    panel[fieldName] = JSON.parse(row[index] || [])
+                } else {
+                    panel[fieldName] = row[index]
+                }
+            })
+
+            return panel
+        })
+    }
+        
 
     /**
      * 
@@ -216,6 +253,26 @@ class Services {
             const rows = data.values
 
             return this.mapPagesData(rows.filter(row => row[0] == seriesId && row[1] == episodeId))
+        } catch(error) {
+            console.log('Error fetching pages:', error)
+        }
+    }
+
+    /**
+     * 
+     * @param {*} seriesId 
+     * @param {*} episodeId 
+     * @returns 
+     */
+    async getPanels(seriesId, episodeId) {
+        try {
+            const response = await this.fetchDataWithoutCache('PANELS!A2:E10000', this.getSeriesAccessUrl)
+            const data = response.json ? await response.json() : response
+            const rows = data.values
+
+            console.log("rows in panels", this.mapPanelsData(rows.filter(row => row[0] == seriesId && row[1] == episodeId)))
+
+            return this.mapPanelsData(rows.filter(row => row[0] == seriesId && row[1] == episodeId))
         } catch(error) {
             console.log('Error fetching pages:', error)
         }

@@ -6,6 +6,7 @@ import Utils from '../../../Services/Utils'
 import { Link } from 'react-router-dom'
 import DisqusComments from '../../Disqus/DisqusComments'
 import Banner from '../../Banner/Banner'
+import PanelViewer from '../../PanelViewer/PanelViewer'
 
 import './Reader.scss';
 
@@ -18,6 +19,8 @@ function Reader() {
     const [firstEpisode, setFirstEpisode] = useState(null)
     const [currentTitle, setCurrentTitle] = useState(null)
     const [seriesData, setSeriesData] = useState(null)
+    const [viewMode, setViewMode] = useState('page')
+    const [pages, setPages] = useState([])
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -62,80 +65,105 @@ function Reader() {
                 setNextEpisode(prevNextEpisodes.next)
                 setFirstEpisode(firstEpisode)
                 setCurrentTitle(currentEpisode.title)
+                  Utils.site().setTitle(currentEpisode.title)
+              } catch(error) {
+                  console.error('Failed to fetch Episodes', error)
+              }
+          }
 
-                Utils.site().setTitle(currentEpisode.title)
-            } catch(error) {
-                console.error('Failed to fetch Episodes', error)
+        const fetchPanelsData = async () => {
+            setIsLoading(true);
+            setPages([])
+
+            try {
+                const data = await Services.getPanels(seriesId, episodeId)
+                if(data && data.length) {
+                    setPages(data.map(page => {
+                        return { url: page.pageLink, coordinates: page.coordinates }}
+                    ))
+                }
+            } catch (error) {
+                console.error('Failed to fetch episode data:', error)
+            } finally {
+                setIsLoading(false)
             }
-        }
+        };
 
-        if (seriesId && episodeId) {
-            fetchEpisodeData()
-            fetchEpisodesData()
+          if (seriesId && episodeId) {
+              fetchEpisodeData()
+              fetchEpisodesData()
+              fetchPanelsData()
 
-            window.scrollTo(0,0)
-        }
-    }, [seriesId, episodeId])
+              window.scrollTo(0,0)
+          }
+      }, [seriesId, episodeId])
 
-    if (isLoading) {
-        return <div>Loading pages ...</div>;
-    }
+      if (isLoading) {
+          return <div>Loading pages ...</div>;
+      }
 
-    if (!episodeData) {
-        return <div>Episode not found or an error occurred :/</div>;
-    }
+      if (!episodeData) {
+          return <div>Episode not found or an error occurred :/</div>;
+      }
 
-    // Assuming episodeData.pages is an array of page URLs
-    return (
-        <div className="page-container page-container__reader">
-            <Banner />
+      // Assuming episodeData.pages is an array of page URLs
+      return (
+          <div className="page-container page-container__reader">
+              <Banner />
+              <section className='action-row action-row__top'>
+                    {
+                        pages.length > 0 && <button class="full-screen" alt="Panel View" title="Panel View" onClick={() => setViewMode(viewMode === 'page' ? 'panel' : 'page')}> </button>
+                    }
 
-            <section className='action-row action-row__top'>
-                {prevEpisode && <div title={prevEpisode.title}><Link to={Utils.comic().getReaderLink(prevEpisode)}>&#9664; {prevEpisode.title}</Link></div>}
-                {!prevEpisode && <div></div>}
-
-                <div className='middle'>
-                    {<span className='separator'>{currentTitle}</span>}
-                </div>
-
-                {nextEpisode && <div title={nextEpisode.title}><Link to={Utils.comic().getReaderLink(nextEpisode)}>{nextEpisode.title} &#9654;</Link></div>}
-                {!nextEpisode && <div></div>}
-            </section>
-
-            <div className="reader">
-                <div className="page-content">
-                    {episodeData.map((page, index) => (
-                        <img
-                            key={index}
-                            src={page.pageLink}
-                            alt={`Page ${index + 1}`}
-                            className="comic-page"
-                        />
-                    ))}
-                </div>
-                <section className='action-row action-row__bottom'>
-                    {prevEpisode && <div title={prevEpisode.title}><Link to={Utils.comic().getReaderLink(prevEpisode)}>&#9664; {prevEpisode.title}</Link></div>}
+                    {prevEpisode && <div title={prevEpisode.title}><Link to={Utils.comic().getReaderLink(prevEpisode)}>◀ {prevEpisode.title}</Link></div>}
                     {!prevEpisode && <div></div>}
 
-                    <div className='middle'>
-                        {<span className='separator'>{currentTitle}</span>}
-                    </div>
+                  <div className='middle'>
+                      {<span className='separator'>{currentTitle}</span>}
+                  </div>
 
-                    {nextEpisode && <div title={nextEpisode.title}><Link to={Utils.comic().getReaderLink(nextEpisode)}>{nextEpisode.title} &#9654;</Link></div>}
-                    {!nextEpisode && <div></div>}
-                </section>
+                  {nextEpisode && <div title={nextEpisode.title}><Link to={Utils.comic().getReaderLink(nextEpisode)}>{nextEpisode.title} ▶</Link></div>}
+                  {!nextEpisode && <div></div>}
+              </section>
 
-                <section className='action-row action-row__bottom'> 
-                    {firstEpisode && <div className='first' title='Jump To First Episode'><Link to={Utils.comic().getReaderLink(firstEpisode)}>First Episode</Link></div>}
-                    {seriesData && <div className='last' title='Jump To Series Page'><Link to={`/comic/${seriesData.seriesId}`}>{seriesData.title}</Link></div>}
-                </section>
+              <div className="reader">
+                  <div className="page-content">
+                      {viewMode === 'page' ? (
+                          episodeData.map((page, index) => (
+                              <img
+                                  key={index}
+                                  src={page.pageLink}
+                                  alt={`Page ${index + 1}`}
+                                  className="comic-page"
+                              />
+                          ))
+                      ) : (
+                            <PanelViewer pages={pages} initialPanelIndex={0} closeFn={() => setViewMode('page')} />
+                      )}
+                  </div>
+                  <section className='action-row action-row__bottom'>
+                      {prevEpisode && <div title={prevEpisode.title}><Link to={Utils.comic().getReaderLink(prevEpisode)}>◀ {prevEpisode.title}</Link></div>}
+                      {!prevEpisode && <div></div>}
+
+                      <div className='middle'>
+                          {<span className='separator'>{currentTitle}</span>}
+                      </div>
+
+                      {nextEpisode && <div title={nextEpisode.title}><Link to={Utils.comic().getReaderLink(nextEpisode)}>{nextEpisode.title} ▶</Link></div>}
+                      {!nextEpisode && <div></div>}
+                  </section>
+
+                  <section className='action-row action-row__bottom'> 
+                      {firstEpisode && <div className='first' title='Jump To First Episode'><Link to={Utils.comic().getReaderLink(firstEpisode)}>First Episode</Link></div>}
+                      {seriesData && <div className='last' title='Jump To Series Page'><Link to={`/comic/${seriesData.seriesId}`}>{seriesData.title}</Link></div>}
+                  </section>
     
-                <section className="disqus-container">
-                    <DisqusComments config={{url:window.location.href,identifier:`bzzbzz-${seriesId}-${episodeId}`}} />
-                </section>
-            </div>
-        </div>
-    );
+                  <section className="disqus-container">
+                      <DisqusComments config={{url:window.location.href,identifier:`bzzbzz-${seriesId}-${episodeId}`}} />
+                  </section>
+              </div>
+          </div>
+      );
 }
 
 export default Reader
