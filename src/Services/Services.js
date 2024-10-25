@@ -159,6 +159,7 @@ class Services {
                 case 'SERIES': return config.data.prod.series
                 case 'PAGES': return config.data.prod.pages
                 case 'EPISODES': return config.data.prod.episodes
+                case 'PANELS': return config.data.prod.panels
                 default: console.error("YIKES! Data read error :(")
             }
         } else {
