@@ -92,9 +92,12 @@ const PanelViewer = ({ pages, initialPanelIndex = 0, closeFn }) => {
 
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
-        
-        canvas.width = canvas.clientWidth;
-        canvas.height = canvas.clientHeight;
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = canvas.clientWidth * dpr;
+        canvas.height = canvas.clientHeight * dpr;
+        ctx.scale(dpr, dpr);
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
 
         const currentPolygon = pages[currentPageIndex].coordinates[currentPanelIndex];
         const transforms = calculateTransforms(currentPolygon, canvas.width, canvas.height);
