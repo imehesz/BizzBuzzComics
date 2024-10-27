@@ -92,32 +92,28 @@ const PanelViewer = ({ pages, initialPanelIndex = 0, closeFn }) => {
 
             const canvas = canvasRef.current;
             const ctx = canvas.getContext('2d');
-        
-            // Get accurate device dimensions
-            const rect = canvas.getBoundingClientRect();
-            const dpr = window.devicePixelRatio || 1;
-        
-            // Set physical pixels
-            canvas.width = rect.width * dpr;
-            canvas.height = rect.height * dpr;
-        
-            // Set logical pixels
-            canvas.style.width = `${rect.width}px`;
-            canvas.style.height = `${rect.height}px`;
-        
-            // Scale context to match device
-            ctx.scale(dpr, dpr);
+            
+            // Force dimensions based on viewport
+            const viewportWidth = Math.min(window.innerWidth, document.documentElement.clientWidth);
+            const viewportHeight = Math.min(window.innerHeight, document.documentElement.clientHeight);
+            
+            // Set canvas dimensions directly matching viewport
+            canvas.width = viewportWidth;
+            canvas.height = viewportHeight;
+            
+            // Clear any transforms
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
             ctx.imageSmoothingEnabled = true;
             ctx.imageSmoothingQuality = 'high';
 
             const currentPolygon = pages[currentPageIndex].coordinates[currentPanelIndex];
-            const transforms = calculateTransforms(currentPolygon, canvas.width, canvas.height);
+            const transforms = calculateTransforms(currentPolygon, viewportWidth, viewportHeight);
 
             if (transition.progress < 1 && transition.from !== null) {
-                const fromTransforms = calculateTransforms(transition.from, canvas.width, canvas.height);
-                const toTransforms = calculateTransforms(transition.to, canvas.width, canvas.height);
+                const fromTransforms = calculateTransforms(transition.from, viewportWidth, viewportHeight);
+                const toTransforms = calculateTransforms(transition.to, viewportWidth, viewportHeight);
                 const interpolated = interpolateTransforms(fromTransforms, toTransforms, transition.progress);
-            
+                
                 renderFrame(ctx, currentPage, transition.to, interpolated);
             } else {
                 renderFrame(ctx, currentPage, currentPolygon, transforms);
