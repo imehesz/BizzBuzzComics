@@ -87,31 +87,42 @@ const PanelViewer = ({ pages, initialPanelIndex = 0, closeFn }) => {
         };
     };
 
-    useEffect(() => {
-        if (!currentPage || !canvasRef.current) return;
+        useEffect(() => {
+            if (!currentPage || !canvasRef.current) return;
 
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        const dpr = window.devicePixelRatio || 1;
-        canvas.width = canvas.clientWidth * dpr;
-        canvas.height = canvas.clientHeight * dpr;
-        ctx.scale(dpr, dpr);
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
+            const canvas = canvasRef.current;
+            const ctx = canvas.getContext('2d');
+        
+            // Get accurate device dimensions
+            const rect = canvas.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+        
+            // Set physical pixels
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+        
+            // Set logical pixels
+            canvas.style.width = `${rect.width}px`;
+            canvas.style.height = `${rect.height}px`;
+        
+            // Scale context to match device
+            ctx.scale(dpr, dpr);
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
 
-        const currentPolygon = pages[currentPageIndex].coordinates[currentPanelIndex];
-        const transforms = calculateTransforms(currentPolygon, canvas.width, canvas.height);
+            const currentPolygon = pages[currentPageIndex].coordinates[currentPanelIndex];
+            const transforms = calculateTransforms(currentPolygon, canvas.width, canvas.height);
 
-        if (transition.progress < 1 && transition.from !== null) {
-            const fromTransforms = calculateTransforms(transition.from, canvas.width, canvas.height);
-            const toTransforms = calculateTransforms(transition.to, canvas.width, canvas.height);
-            const interpolated = interpolateTransforms(fromTransforms, toTransforms, transition.progress);
+            if (transition.progress < 1 && transition.from !== null) {
+                const fromTransforms = calculateTransforms(transition.from, canvas.width, canvas.height);
+                const toTransforms = calculateTransforms(transition.to, canvas.width, canvas.height);
+                const interpolated = interpolateTransforms(fromTransforms, toTransforms, transition.progress);
             
-            renderFrame(ctx, currentPage, transition.to, interpolated);
-        } else {
-            renderFrame(ctx, currentPage, currentPolygon, transforms);
-        }
-    }, [currentPage, currentPanelIndex, transition]);
+                renderFrame(ctx, currentPage, transition.to, interpolated);
+            } else {
+                renderFrame(ctx, currentPage, currentPolygon, transforms);
+            }
+        }, [currentPage, currentPanelIndex, transition]);
 
     const nextPanel = () => {
         const currentPageCoordinates = pages[currentPageIndex].coordinates;
